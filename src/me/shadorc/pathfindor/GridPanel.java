@@ -26,26 +26,26 @@ public class GridPanel extends JPanel {
 	private Color PATH_COLOR = Color.YELLOW;
 	private Color EMPTY_COLOR = Color.WHITE;
 
-	private static int sizeX = 11;
-	private static int sizeY = 11;
+	private static int columns = 11;
+	private static int rows = 11;
 	private Node[][] grid;
 
 	GridPanel() {
-		super(new GridLayout(sizeX, sizeY));
+		super(new GridLayout(rows, columns));
 		this.init();
 	}
 
 	public void init() {
 		this.removeAll();
 
-		grid = new Node[sizeX][sizeY];
+		grid = new Node[columns][rows];
 
 		openList = new ArrayList <Node>();
 		closeList = new ArrayList <Node>();
 
 		//Initialization
-		for(int y = 0; y < sizeY; y++) {
-			for(int x = 0; x < sizeX; x++) {
+		for(int y = 0; y < rows; y++) {
+			for(int x = 0; x < columns; x++) {
 				Node node = new Node(x, y);
 				node.setBackground(EMPTY_COLOR);
 				node.addMouseListener(new MouseAdapter() {
@@ -74,12 +74,12 @@ public class GridPanel extends JPanel {
 			}
 		}
 
-		start = grid[sizeX / 2][sizeY - 1];
+		start = grid[columns / 2][rows - 1];
 		start.setBackground(START_COLOR);
 		start.setForeground(Color.BLACK);
 		start.setText("Start");
 
-		end = grid[sizeX / 2][0];
+		end = grid[columns / 2][0];
 		end.setBackground(END_COLOR);
 		end.setForeground(Color.BLACK);
 		end.setText("End");
@@ -87,6 +87,7 @@ public class GridPanel extends JPanel {
 		OptionsPanel.setText("\"Paint\" obstacles", false);;
 	}
 
+	//A* algorithm part
 	private ArrayList <Node> getPath() {
 		openList.clear();
 		closeList.clear();
@@ -138,6 +139,7 @@ public class GridPanel extends JPanel {
 		return path;
 	}
 
+	//Calculates every move it took to get to this Node
 	private int calculateG(Node current) {
 		int step = 0;
 		Node node = current;
@@ -171,7 +173,7 @@ public class GridPanel extends JPanel {
 
 	private boolean isImpossible(int x, int y) {
 		//Check whether it's not outside the window
-		return (x < 0 || x >= sizeX) || (y < 0 || y >= sizeY);
+		return (x < 0 || x >= columns) || (y < 0 || y >= rows);
 	}
 
 	//Return the Node with the smaller F
@@ -188,8 +190,9 @@ public class GridPanel extends JPanel {
 	public void start() {
 		OptionsPanel.setText("Searching...", false);
 
-		for(int y = 0; y < sizeY; y++) {
-			for(int x = 0; x < sizeX; x++) {
+		//Clean yellow traces
+		for(int y = 0; y < rows; y++) {
+			for(int x = 0; x < columns; x++) {
 				if(grid[x][y].getBackground() == PATH_COLOR) {
 					grid[x][y].setBackground(EMPTY_COLOR);
 				}
@@ -207,7 +210,7 @@ public class GridPanel extends JPanel {
 					for(Node node : path) {
 						node.setBackground(PATH_COLOR);
 						try {
-							Thread.sleep(OptionsPanel.getWait());
+							Thread.sleep(OptionsPanel.getWaitingTime());
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -219,12 +222,12 @@ public class GridPanel extends JPanel {
 		}).start();
 	}
 
-	public void setGridSize(int sizeX, int sizeY) {
-		GridPanel.sizeX = sizeX;
-		GridPanel.sizeY = sizeY;
-		this.setLayout(new GridLayout(sizeX, sizeY));;
+	public void setGridSize(int columns, int rows) {
+		GridPanel.columns = columns;
+		GridPanel.rows = rows;
+		this.setLayout(new GridLayout(rows, columns));;
 		this.init();
-		this.getParent().validate();
+		//Refreshes the frame
 		this.getParent().repaint();
 	}
 
@@ -232,10 +235,11 @@ public class GridPanel extends JPanel {
 		this.init();
 
 		int walls = 0;
+		Random rand = new Random();
 
-		while(walls != (sizeX*sizeY) * OptionsPanel.getWalls() / 100) {
-			int randX = new Random().nextInt(sizeX);
-			int randY = new Random().nextInt(sizeY);
+		while(walls != (columns*rows) * OptionsPanel.getWalls() / 100) {
+			int randX = rand.nextInt(columns);
+			int randY = rand.nextInt(rows);
 
 			JButton bu = grid[randX][randY];
 

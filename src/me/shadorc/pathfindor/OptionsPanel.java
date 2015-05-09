@@ -20,11 +20,11 @@ public class OptionsPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	private static JLabel info = new JLabel("", JLabel.CENTER);
-	private static JSlider wait, numWall;
+	private static JSlider waitingTime, numWall;
 	private static JCheckBox diagonal;
 
 	private JButton clear, start, generate, genWall;
-	private JTextField gridX, gridY;
+	private JTextField columns, rows;
 
 	private GridPanel grid;
 
@@ -34,21 +34,21 @@ public class OptionsPanel extends JPanel implements ActionListener {
 
 		this.grid = grid;
 
-		JPanel panelX = new JPanel(new BorderLayout());
-		JLabel labelX = new JLabel("Columns (1-100) : ");
-		panelX.add(labelX, BorderLayout.WEST);
+		JPanel panelCol = new JPanel(new BorderLayout());
+		JLabel labelCol = new JLabel("Columns (1-100) : ");
+		panelCol.add(labelCol, BorderLayout.WEST);
 
-		gridX = new JTextField("11");
-		panelX.add(gridX, BorderLayout.CENTER);
-		this.add(panelX);
+		columns = new JTextField("11");
+		panelCol.add(columns, BorderLayout.CENTER);
+		this.add(panelCol);
 
-		JPanel panelY = new JPanel(new BorderLayout());
-		JLabel labelY = new JLabel("Rows (1-100) : ");
-		panelY.add(labelY, BorderLayout.WEST);
+		JPanel panelRow = new JPanel(new BorderLayout());
+		JLabel labelRow = new JLabel("Rows (1-100) : ");
+		panelRow.add(labelRow, BorderLayout.WEST);
 
-		gridY = new JTextField("11");
-		panelY.add(gridY, BorderLayout.CENTER);
-		this.add(panelY);
+		rows = new JTextField("11");
+		panelRow.add(rows, BorderLayout.CENTER);
+		this.add(panelRow);
 
 		JPanel wallPane = new JPanel(new GridLayout(2, 0));
 		JLabel wallInfo = new JLabel("Obstacles (%) :", JLabel.CENTER);
@@ -64,10 +64,10 @@ public class OptionsPanel extends JPanel implements ActionListener {
 		JLabel waitInfo = new JLabel("Time between each actions (ms) :", JLabel.CENTER);
 		waitPanel.add(waitInfo);
 
-		wait = new JSlider(JSlider.HORIZONTAL, 0, 1000, 100);
-		wait.setMajorTickSpacing(250);
-		wait.setPaintLabels(true);
-		waitPanel.add(wait);
+		waitingTime = new JSlider(JSlider.HORIZONTAL, 0, 1000, 100);
+		waitingTime.setMajorTickSpacing(250);
+		waitingTime.setPaintLabels(true);
+		waitPanel.add(waitingTime);
 		this.add(waitPanel);
 
 		genWall = new JButton("Generate obstacles");
@@ -103,31 +103,35 @@ public class OptionsPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		JButton bu = (JButton) event.getSource();
+
 		if(bu == start) {
 			grid.start();
+
 		} else if(bu == clear) {
 			grid.init();
+
 		} else if(bu == generate) {
-			int sizeX, sizeY;
+			int width, height;
 			try {
-				sizeX = Integer.parseInt(gridX.getText());
-				sizeY = Integer.parseInt(gridY.getText());
-				if(sizeX > 100 || sizeX < 1 || sizeY > 100 || sizeY < 1) {
+				width = Integer.parseInt(columns.getText());
+				height = Integer.parseInt(rows.getText());
+				if(width > 100 || width < 1 || height > 100 || height < 1) {
 					setText("The size should be between 1 and 100", true);
 				} else {
-					grid.setGridSize(sizeX, sizeY);
+					grid.setGridSize(width, height);
 				}
 			} catch (NumberFormatException e) {
 				setText("Invalid number", true);
 			}
+
 		} else if(bu == genWall) {
 			grid.generateWall();
 		}
 
 	}
 
-	public static int getWait() {
-		return wait.getValue();
+	public static int getWaitingTime() {
+		return waitingTime.getValue();
 	}
 
 	public static int getWalls() {
