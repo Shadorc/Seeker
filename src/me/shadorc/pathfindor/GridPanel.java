@@ -52,15 +52,19 @@ public class GridPanel extends JPanel {
 					@Override
 					public void mousePressed(MouseEvent e) {
 						if(e.getButton() == MouseEvent.BUTTON1) {
-							((Node) e.getSource()).setBackground(node.getBackground() != WALL_COLOR ? WALL_COLOR : EMPTY_COLOR);
+							Node node = (Node) e.getSource();
+							if(node.getBackground() != END_COLOR && node.getBackground() != START_COLOR) {
+								node.setBackground(node.getBackground() == WALL_COLOR ? EMPTY_COLOR : WALL_COLOR);
+							}
 							mousePressed = true;
 						}
 					}
 
 					@Override
 					public void mouseEntered(MouseEvent e) {
-						if(mousePressed) {
-							((Node) e.getSource()).setBackground(WALL_COLOR);
+						Node node = (Node) e.getSource();
+						if(mousePressed && node.getBackground() != START_COLOR && node.getBackground() != END_COLOR) {
+							node.setBackground(WALL_COLOR);
 						}
 					}
 
