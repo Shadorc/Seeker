@@ -1,4 +1,4 @@
-package me.shadorc.pathfindor;
+package me.shadorc.seeker;
 
 import javax.swing.JButton;
 
