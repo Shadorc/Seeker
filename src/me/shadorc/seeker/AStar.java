@@ -14,7 +14,7 @@ public class AStar {
 	 * @param start Path's start
 	 * @param end 	Path's end
 	 */
-	AStar(Node[][] grid, Node start, Node end) {
+	public AStar(Node[][] grid, Node start, Node end) {
 		this.grid = grid;
 		this.start = start;
 		this.end = end;

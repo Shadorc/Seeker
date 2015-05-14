@@ -21,7 +21,7 @@ public class Node extends JButton {
 
 	private int x, y;
 
-	Node(int x, int y) {
+	public Node(int x, int y) {
 		super();
 
 		this.x = x;
