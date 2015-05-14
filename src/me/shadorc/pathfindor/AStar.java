@@ -9,6 +9,11 @@ public class AStar {
 	private Node start, end;
 	private Node[][] grid;
 
+	/**
+	 * @param grid 	Map which we must determine the shortest path
+	 * @param start Path's start
+	 * @param end 	Path's end
+	 */
 	AStar(Node[][] grid, Node start, Node end) {
 		this.grid = grid;
 		this.start = start;
@@ -18,6 +23,9 @@ public class AStar {
 		closeList = new ArrayList <Node>();
 	}
 
+	/**
+	 * @return The shortest way to go from start to end as an ArrayList of Node
+	 */
 	public ArrayList <Node> getPath() {
 		openList.add(start);
 
@@ -69,7 +77,9 @@ public class AStar {
 		return path;
 	}
 
-	/*Return the Node with the smaller F*/
+	/**
+	 * @return Node with the smaller F
+	 */
 	private Node getCurrent() {
 		Node current = null;
 		for(Node node : openList) {
@@ -80,6 +90,10 @@ public class AStar {
 		return current;
 	}
 
+	/**
+	 * @param current The node that we must retrieve surrounding Nodes
+	 * @return Surrounding Nodes 
+	 */
 	private ArrayList <Node> getAround(Node current) {
 		ArrayList <Node> around = new ArrayList <Node>();
 
@@ -101,12 +115,16 @@ public class AStar {
 		return around;
 	}
 
-	/*Check whether it's not outside the window*/
+	/**
+	 * @return Whether coordinates are not out of bounds
+	 */
 	private boolean isPossible(int x, int y) {
 		return (x >= 0 && x < grid[0].length) && (y >= 0 && y < grid.length);
 	}
 
-	/*Calculates every move it took to get to this Node*/
+	/**
+	 * @return Every move it took to go arrive this Node
+	 */
 	private int calculateG(Node current) {
 		int step = 0;
 		Node node = current;
