@@ -11,24 +11,24 @@ public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
-
-		GridPanel grid = new GridPanel();
-		OptionsPanel options = new OptionsPanel(grid);
-
-		JPanel panel = new JPanel(new BorderLayout());
-		panel.add(grid, BorderLayout.CENTER);
-		panel.add(options, BorderLayout.EAST);
-
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new Frame(panel);
+				new Frame();
 			}
 		});
 	}
 
-	Frame(JPanel panel) {
+	Frame() {
 		super("Seeker");
+
+		GridPanel gridPanel = new GridPanel();
+		OptionsPanel options = new OptionsPanel(gridPanel);
+
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.add(gridPanel, BorderLayout.CENTER);
+		panel.add(options, BorderLayout.EAST);
+
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setContentPane(panel);
 		this.pack();

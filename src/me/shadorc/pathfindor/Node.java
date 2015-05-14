@@ -6,11 +6,18 @@ public class Node extends JButton {
 
 	private static final long serialVersionUID = 1L;
 
-	private Node p; //Node that allowed "to arrive" at current Node
+	/*Parent, Node that allowed "to arrive" at current Node*/
+	private Node p; 
 
-	private double g; //Distance from the starting point to arrive at the current Node
-	private double h; //Distance as the crow flies between the Node and the current finish Node
-	private double f; //Sum of G and H
+	/*Distance from the starting point to arrive at the current Node*/
+	private double g; 
+	/*Distance as the crow flies between the Node and the current finish Node*/
+	private double h; 
+	/*Sum of G and H*/
+	private double f; 
+
+	/*The Node is a wall*/
+	private boolean isWall;
 
 	private int x, y;
 
@@ -21,8 +28,12 @@ public class Node extends JButton {
 		this.y = y;
 	}
 
-	public Node getP() {
-		return p;
+	public int getPosX() {
+		return x;
+	}
+
+	public int getPosY() {
+		return y;
 	}
 
 	public double getG() {
@@ -37,16 +48,12 @@ public class Node extends JButton {
 		return f;
 	}
 
-	public int getPosX() {
-		return x;
+	public Node getP() {
+		return p;
 	}
 
-	public int getPosY() {
-		return y;
-	}
-
-	public void setP(Node p) {
-		this.p = p;
+	public boolean isWall() {
+		return isWall;
 	}
 
 	public void setG(double g) {
@@ -59,5 +66,13 @@ public class Node extends JButton {
 
 	public void setF(double f) {
 		this.f = f;
+	}
+
+	public void setP(Node p) {
+		this.p = p;
+	}
+
+	public void isWall(boolean isWall) {
+		this.isWall = isWall;
 	}
 }

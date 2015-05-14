@@ -20,10 +20,10 @@ public class OptionsPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	private static JLabel info = new JLabel("", JLabel.CENTER);
-	private static JSlider waitingTime, numWall;
+	private static JSlider waitingTime, wallsNum;
 	private static JCheckBox diagonal;
 
-	private JButton clear, start, generate, genWall;
+	private JButton clear, start, genGrid, genWalls;
 	private JTextField columns, rows;
 
 	private GridPanel grid;
@@ -51,13 +51,13 @@ public class OptionsPanel extends JPanel implements ActionListener {
 		this.add(panelRow);
 
 		JPanel wallPane = new JPanel(new GridLayout(2, 0));
-		JLabel wallInfo = new JLabel("Obstacles (%) :", JLabel.CENTER);
+		JLabel wallInfo = new JLabel("Walls (%) :", JLabel.CENTER);
 		wallPane.add(wallInfo);
 
-		numWall = new JSlider(JSlider.HORIZONTAL, 0, 75, 25);
-		numWall.setMajorTickSpacing(25);
-		numWall.setPaintLabels(true);
-		wallPane.add(numWall);
+		wallsNum = new JSlider(JSlider.HORIZONTAL, 0, 75, 25);
+		wallsNum.setMajorTickSpacing(25);
+		wallsNum.setPaintLabels(true);
+		wallPane.add(wallsNum);
 		this.add(wallPane);
 
 		JPanel waitPanel = new JPanel(new GridLayout(2, 0));
@@ -70,17 +70,17 @@ public class OptionsPanel extends JPanel implements ActionListener {
 		waitPanel.add(waitingTime);
 		this.add(waitPanel);
 
-		genWall = new JButton("Generate obstacles");
-		genWall.setBackground(Color.LIGHT_GRAY);
-		genWall.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		genWall.addActionListener(this);
-		this.add(genWall);
+		genWalls = new JButton("Generate walls");
+		genWalls.setBackground(Color.LIGHT_GRAY);
+		genWalls.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		genWalls.addActionListener(this);
+		this.add(genWalls);
 
-		generate = new JButton("New Grid");
-		generate.setBackground(Color.LIGHT_GRAY);
-		generate.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		generate.addActionListener(this);
-		this.add(generate);
+		genGrid = new JButton("New Grid");
+		genGrid.setBackground(Color.LIGHT_GRAY);
+		genGrid.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		genGrid.addActionListener(this);
+		this.add(genGrid);
 
 		clear = new JButton("Clear");
 		clear.setBackground(Color.LIGHT_GRAY);
@@ -110,7 +110,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
 		} else if(bu == clear) {
 			grid.init();
 
-		} else if(bu == generate) {
+		} else if(bu == genGrid) {
 			int width, height;
 			try {
 				width = Integer.parseInt(columns.getText());
@@ -124,21 +124,20 @@ public class OptionsPanel extends JPanel implements ActionListener {
 				setText("Invalid number", true);
 			}
 
-		} else if(bu == genWall) {
-			grid.generateWall();
+		} else if(bu == genWalls) {
+			grid.generateWalls();
 		}
-
 	}
 
 	public static int getWaitingTime() {
 		return waitingTime.getValue();
 	}
 
-	public static int getWalls() {
-		return numWall.getValue();
+	public static int getWallsNum() {
+		return wallsNum.getValue();
 	}
 
-	public static boolean chechDiagonal() {
+	public static boolean checkDiagonal() {
 		return diagonal.isSelected();
 	}
 
