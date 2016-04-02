@@ -21,6 +21,7 @@ public class Frame extends JFrame {
 
 	Frame() {
 		super("Seeker");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		GridPanel gridPanel = new GridPanel();
 		OptionsPanel options = new OptionsPanel(gridPanel);
@@ -29,7 +30,6 @@ public class Frame extends JFrame {
 		panel.add(gridPanel, BorderLayout.CENTER);
 		panel.add(options, BorderLayout.EAST);
 
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setContentPane(panel);
 		this.pack();
 		this.setSize(1200, 800);

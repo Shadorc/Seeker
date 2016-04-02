@@ -73,17 +73,17 @@ public class GridPanel extends JPanel {
 			}
 		}
 
-		start = grid[columns / 2][rows - 1];
+		start = grid[columns/2][rows-1];
 		start.setBackground(START_COLOR);
 		start.setForeground(Color.BLACK);
 		start.setText("Start");
 
-		end = grid[columns / 2][0];
+		end = grid[columns/2][0];
 		end.setBackground(END_COLOR);
 		end.setForeground(Color.BLACK);
 		end.setText("End");
 
-		OptionsPanel.setText("\"Paint\" walls", false);
+		OptionsPanel.setText("\"Draw\" walls", false);
 	}
 
 	public void start() {
@@ -131,7 +131,7 @@ public class GridPanel extends JPanel {
 		GridPanel.rows = rows;
 		this.setLayout(new GridLayout(rows, columns));
 		this.init();
-		/*Refreshes the frame*/
+		/*Refresh main Frame*/
 		this.getParent().revalidate();
 		this.getParent().repaint();
 	}
@@ -141,7 +141,7 @@ public class GridPanel extends JPanel {
 
 		Random rand = new Random();
 
-		int wallsToPlace = (columns*rows) * OptionsPanel.getWallsNum() / 100;
+		int wallsToPlace = (columns*rows)*OptionsPanel.getWallsNum()/100;
 		int wallsPlaced = 0;
 
 		while(wallsPlaced != wallsToPlace) {

@@ -10,9 +10,9 @@ public class AStar {
 	private Node[][] grid;
 
 	/**
-	 * @param grid 	Map which we must determine the shortest path
-	 * @param start Path's start
-	 * @param end 	Path's end
+	 * @param grid Map which we must determine the shortest path
+	 * @param start Start Node
+	 * @param end End Node
 	 */
 	public AStar(Node[][] grid, Node start, Node end) {
 		this.grid = grid;
@@ -44,14 +44,14 @@ public class AStar {
 					openList.add(node);
 					node.setP(current);
 					node.setG(this.calculateG(node));
-					/*Distance between node end end : sqrt((node.x-end.x)^2 + (node.y-end.y)^2))*/
+					/*Distance between node and the end : sqrt((node.x-end.x)^2 + (node.y-end.y)^2))*/
 					node.setH(Math.sqrt(Math.pow(node.getPosX() - end.getPosX(), 2) + Math.pow(node.getPosY() - end.getPosY(), 2)));
 					node.setF(node.getG() + node.getH());
 				} else {
 					int g = this.calculateG(node);
 					if(g < node.getG()) {
 						node.setP(current);
-						/*Distance between node end end : sqrt((node.x-end.x)^2 + (node.y-end.y)^2))*/
+						/*Distance between node and the end : sqrt((node.x-end.x)^2 + (node.y-end.y)^2))*/
 						node.setH(Math.sqrt(Math.pow(node.getPosX() - end.getPosX(), 2) + Math.pow(node.getPosY() - end.getPosY(), 2)));
 						node.setF(node.getG() + node.getH());
 					}
@@ -71,7 +71,7 @@ public class AStar {
 			node = node.getP();
 		}
 
-		/*The path from the start to go until arriving, so we reverse*/
+		/*The path goes from end to start, so we reverse*/
 		Collections.reverse(path);
 
 		return path;
@@ -100,30 +100,30 @@ public class AStar {
 		int x = current.getPosX();
 		int y = current.getPosY();
 
-		if(this.isPossible(x, y + 1))	around.add(grid[x][y + 1]);
-		if(this.isPossible(x, y - 1))	around.add(grid[x][y - 1]);
-		if(this.isPossible(x + 1, y))	around.add(grid[x + 1][y]);
-		if(this.isPossible(x - 1, y))	around.add(grid[x - 1][y]);
+		if(this.isPossible(x, y + 1)) around.add(grid[x][y + 1]);
+		if(this.isPossible(x, y - 1)) around.add(grid[x][y - 1]);
+		if(this.isPossible(x + 1, y)) around.add(grid[x + 1][y]);
+		if(this.isPossible(x - 1, y)) around.add(grid[x - 1][y]);
 
 		if(OptionsPanel.checkDiagonal()) {
-			if(this.isPossible(x + 1, y + 1))	around.add(grid[x + 1][y + 1]);
-			if(this.isPossible(x + 1, y - 1))	around.add(grid[x + 1][y - 1]);
-			if(this.isPossible(x - 1, y + 1))	around.add(grid[x - 1][y + 1]);
-			if(this.isPossible(x - 1, y - 1))	around.add(grid[x - 1][y - 1]);
+			if(this.isPossible(x + 1, y + 1)) around.add(grid[x + 1][y + 1]);
+			if(this.isPossible(x + 1, y - 1)) around.add(grid[x + 1][y - 1]);
+			if(this.isPossible(x - 1, y + 1)) around.add(grid[x - 1][y + 1]);
+			if(this.isPossible(x - 1, y - 1)) around.add(grid[x - 1][y - 1]);
 		}
 
 		return around;
 	}
 
 	/**
-	 * @return Whether coordinates are not out of bounds
+	 * @return If coordinates are not out of bounds
 	 */
 	private boolean isPossible(int x, int y) {
 		return (x >= 0 && x < grid[0].length) && (y >= 0 && y < grid.length);
 	}
 
 	/**
-	 * @return Every move it took to go arrive this Node
+	 * @return Every move it tooks to arrive from this Node
 	 */
 	private int calculateG(Node current) {
 		int step = 0;
