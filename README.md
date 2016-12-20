@@ -2,4 +2,4 @@
 Seeker is a Path Finding Software with graphical interface using the A* algorithm.
 
 <h2>Screenshot</h2>
-![ScreenShot](https://i.imgur.com/VxP6aVy.png)
+![ScreenShot](http://static.ccm2.net/codes-sources.commentcamarche.net/pictures/LRjnxMMm-screenshot.png)
