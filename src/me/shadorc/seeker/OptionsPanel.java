@@ -28,7 +28,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
 
 	private GridPanel grid;
 
-	OptionsPanel(GridPanel grid) {
+	public OptionsPanel(GridPanel grid) {
 		super(new GridLayout(10, 0, 0, 10));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -116,7 +116,7 @@ public class OptionsPanel extends JPanel implements ActionListener {
 				width = Integer.parseInt(columns.getText());
 				height = Integer.parseInt(rows.getText());
 				if(width > 100 || width < 1 || height > 100 || height < 1) {
-					setText("The size should be between 1 and 100", true);
+					OptionsPanel.setText("The size should be between 1 and 100", true);
 				} else {
 					grid.setGridSize(width, height);
 				}

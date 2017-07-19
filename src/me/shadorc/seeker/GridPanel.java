@@ -13,22 +13,25 @@ public class GridPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private boolean mousePressed = false;
-
 	private Color START_COLOR = Color.RED;
 	private Color END_COLOR = Color.GREEN;
 	private Color WALL_COLOR = Color.BLACK;
 	private Color PATH_COLOR = Color.YELLOW;
 	private Color EMPTY_COLOR = Color.WHITE;
 
-	private static int columns = 11;
-	private static int rows = 11;
+	private boolean mousePressed;
+	private int rows, columns;
 
 	private Node[][] grid;
-	private Node start, end;
+	private Node startNode, endNode;
 
-	GridPanel() {
+	public GridPanel(int columns, int rows) {
 		super(new GridLayout(rows, columns));
+
+		this.mousePressed = false;
+		this.rows = rows;
+		this.columns = columns;
+
 		this.init();
 	}
 
@@ -55,6 +58,11 @@ public class GridPanel extends JPanel {
 					}
 
 					@Override
+					public void mouseReleased(MouseEvent e) {
+						mousePressed = false;
+					}
+
+					@Override
 					public void mouseEntered(MouseEvent e) {
 						Node node = (Node) e.getSource();
 						if(mousePressed && node.getBackground() != START_COLOR && node.getBackground() != END_COLOR) {
@@ -62,26 +70,21 @@ public class GridPanel extends JPanel {
 							node.isWall(true);
 						}
 					}
-
-					@Override
-					public void mouseReleased(MouseEvent e) {
-						mousePressed = false;
-					}
 				});
 				grid[x][y] = node;
 				this.add(grid[x][y]);
 			}
 		}
 
-		start = grid[columns/2][rows-1];
-		start.setBackground(START_COLOR);
-		start.setForeground(Color.BLACK);
-		start.setText("Start");
+		startNode = grid[columns/2][rows-1];
+		startNode.setBackground(START_COLOR);
+		startNode.setForeground(Color.BLACK);
+		startNode.setText("Start");
 
-		end = grid[columns/2][0];
-		end.setBackground(END_COLOR);
-		end.setForeground(Color.BLACK);
-		end.setText("End");
+		endNode = grid[columns/2][0];
+		endNode.setBackground(END_COLOR);
+		endNode.setForeground(Color.BLACK);
+		endNode.setText("End");
 
 		OptionsPanel.setText("\"Draw\" walls", false);
 	}
@@ -98,14 +101,14 @@ public class GridPanel extends JPanel {
 			}
 		}
 
-		end.setBackground(END_COLOR);
+		endNode.setBackground(END_COLOR);
 
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				long startTime = System.currentTimeMillis();
 
-				AStar aStar = new AStar(grid, start, end);
+				AStar aStar = new AStar(grid, startNode, endNode);
 				ArrayList <Node> path = aStar.getPath();
 
 				if(path != null) {
@@ -127,8 +130,8 @@ public class GridPanel extends JPanel {
 	}
 
 	public void setGridSize(int columns, int rows) {
-		GridPanel.columns = columns;
-		GridPanel.rows = rows;
+		this.columns = columns;
+		this.rows = rows;
 		this.setLayout(new GridLayout(rows, columns));
 		this.init();
 		/*Refresh main Frame*/
@@ -141,7 +144,7 @@ public class GridPanel extends JPanel {
 
 		Random rand = new Random();
 
-		int wallsToPlace = (columns*rows)*OptionsPanel.getWallsNum()/100;
+		int wallsToPlace = columns*rows*OptionsPanel.getWallsNum()/100;
 		int wallsPlaced = 0;
 
 		while(wallsPlaced != wallsToPlace) {
@@ -150,7 +153,7 @@ public class GridPanel extends JPanel {
 
 			Node node = grid[randX][randY];
 
-			if(!node.isWall() && node != start && node != end) {
+			if(!node.isWall() && node != startNode && node != endNode) {
 				node.setBackground(WALL_COLOR);
 				node.isWall(true);
 				wallsPlaced++;
