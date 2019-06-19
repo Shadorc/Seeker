@@ -1,4 +1,4 @@
-package me.shadorc.seeker;
+package com.shadorc.seeker;
 
 import javax.swing.*;
 
@@ -6,80 +6,79 @@ public class Node extends JButton {
 
     private static final long serialVersionUID = 1L;
 
-    /*Parent, Node that allowed "to arrive" at current Node*/
+    // Parent, Node that allowed "to arrive" to this Node
     private Node p;
 
-    /*Distance from the starting point to arrive at the current Node*/
+    // Distance from the starting point to this Node
     private double g;
-    /*Distance as the crow flies between the Node and the finish Node*/
+    // Distance as the crow flies between this Node and the end Node
     private double h;
-    /*Sum of G and H*/
+    // Sum of G and H
     private double f;
 
-    /*The Node is a wall*/
+    // Is this Node a wall ?
     private boolean isWall;
 
-    private int x, y;
+    private final int x;
+    private final int y;
 
     public Node(int x, int y) {
-        super();
-
         this.x = x;
         this.y = y;
     }
 
     public int getPosX() {
-        return x;
+        return this.x;
     }
 
     public int getPosY() {
-        return y;
+        return this.y;
     }
 
     /**
-     * @return Distance from the starting point to arrive at the current Node
+     * @return Distance from the starting point to this Node
      */
     public double getG() {
-        return g;
+        return this.g;
     }
 
     /**
-     * @return Distance as the crow flies between the Node and the finish Node
+     * @return Distance as the crow flies between this Node and the finish Node
      */
     public double getH() {
-        return h;
+        return this.h;
     }
 
     /**
      * @return Sum of G and H
      */
     public double getF() {
-        return f;
+        return this.f;
     }
 
     /**
-     * @return Node's parent (Node that allowed "to arrive" at current Node)
+     * @return Node's parent (Node that allowed "to arrive" to this Node)
      */
     public Node getP() {
-        return p;
+        return this.p;
     }
 
     /**
-     * @return Whether or not the node is a wall
+     * @return true if the node is a wall, false otherwise
      */
     public boolean isWall() {
-        return isWall;
+        return this.isWall;
     }
 
     /**
-     * @param g Distance from the starting point to arrive at the current Node
+     * @param g Distance from the starting point to this Node
      */
     public void setG(double g) {
         this.g = g;
     }
 
     /**
-     * @param h Distance as the crow flies between the Node and the finish Node
+     * @param h DDistance as the crow flies between this Node and the finish Node
      */
     public void setH(double h) {
         this.h = h;
@@ -93,14 +92,14 @@ public class Node extends JButton {
     }
 
     /**
-     * @param p Node's parent (Node that allowed "to arrive" at current Node)
+     * @param p Node's parent (Node that allowed "to arrive" to this Node)
      */
     public void setP(Node p) {
         this.p = p;
     }
 
     /**
-     * @param isWall Determine if the Node is a wall
+     * @param isWall true if the node is a wall, false otherwise
      */
     public void isWall(boolean isWall) {
         this.isWall = isWall;
