@@ -1,16 +1,15 @@
 package com.shadorc.seeker;
 
-import com.shadorc.seeker.graphics.OptionsPanel;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class AStar {
 
+    private final Node[][] grid;
     private final Node start;
     private final Node end;
-    private final Node[][] grid;
+    private final boolean checkDiagonals;
     private final List<Node> openList;
     private final List<Node> closeList;
 
@@ -19,10 +18,11 @@ public class AStar {
      * @param start Start Node
      * @param end   End Node
      */
-    public AStar(Node[][] grid, Node start, Node end) {
+    public AStar(Node[][] grid, Node start, Node end, boolean checkDiagonals) {
         this.grid = grid;
         this.start = start;
         this.end = end;
+        this.checkDiagonals = checkDiagonals;
         this.openList = new ArrayList<>();
         this.closeList = new ArrayList<>();
     }
@@ -123,7 +123,7 @@ public class AStar {
             around.add(this.grid[x - 1][y]);
         }
 
-        if (OptionsPanel.checkDiagonal()) {
+        if (this.checkDiagonals) {
             if (this.isPossible(x + 1, y + 1)) {
                 around.add(this.grid[x + 1][y + 1]);
             }

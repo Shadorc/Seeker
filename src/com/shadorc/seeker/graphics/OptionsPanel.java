@@ -8,21 +8,19 @@ public class OptionsPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private static final JLabel infoLabel = new JLabel("", SwingConstants.CENTER);
-    private static JSlider waitingTimeSlider;
-    private static JSlider wallRatioSlider;
-    private static JCheckBox diagonalCheckBox;
-
+    private final SeekerFrame seekerFrame;
+    private final JLabel infoLabel;
+    private final JSlider waitingTimeSlider;
+    private final JSlider wallRatioSlider;
+    private final JCheckBox checkDiagonalsCheckBox;
     private final JTextField columnsField;
     private final JTextField rowsField;
 
-    private final GridPanel gridPanel;
-
-    public OptionsPanel(GridPanel gridPanel) {
+    public OptionsPanel(SeekerFrame seekerFrame) {
         super(new GridLayout(10, 0, 0, 10));
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        this.gridPanel = gridPanel;
+        this.seekerFrame = seekerFrame;
 
         final JPanel columnPanel = new JPanel(new BorderLayout());
         final JLabel columnLabel = new JLabel("Columns (1-100) : ");
@@ -44,26 +42,26 @@ public class OptionsPanel extends JPanel {
         final JLabel wallLabel = new JLabel("Walls (%) :", SwingConstants.CENTER);
         wallPanel.add(wallLabel);
 
-        wallRatioSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 75, 25);
-        wallRatioSlider.setMajorTickSpacing(25);
-        wallRatioSlider.setPaintLabels(true);
-        wallPanel.add(wallRatioSlider);
+        this.wallRatioSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 75, 25);
+        this.wallRatioSlider.setMajorTickSpacing(25);
+        this.wallRatioSlider.setPaintLabels(true);
+        wallPanel.add(this.wallRatioSlider);
         this.add(wallPanel);
 
         final JPanel waitPanel = new JPanel(new GridLayout(2, 0));
         final JLabel waitLabel = new JLabel("Time between each actions (ms) :", SwingConstants.CENTER);
         waitPanel.add(waitLabel);
 
-        waitingTimeSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 1000, 100);
-        waitingTimeSlider.setMajorTickSpacing(250);
-        waitingTimeSlider.setPaintLabels(true);
-        waitPanel.add(waitingTimeSlider);
+        this.waitingTimeSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 1000, 100);
+        this.waitingTimeSlider.setMajorTickSpacing(250);
+        this.waitingTimeSlider.setPaintLabels(true);
+        waitPanel.add(this.waitingTimeSlider);
         this.add(waitPanel);
 
         final JButton wallsButton = new JButton("Generate walls");
         wallsButton.setBackground(Color.LIGHT_GRAY);
         wallsButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        wallsButton.addActionListener((event) -> this.gridPanel.generateRandomWalls());
+        wallsButton.addActionListener((event) -> this.seekerFrame.getGridPanel().generateRandomWalls());
         this.add(wallsButton);
 
         final JButton gridButton = new JButton("New Grid");
@@ -75,19 +73,20 @@ public class OptionsPanel extends JPanel {
         final JButton clearButton = new JButton("Clear");
         clearButton.setBackground(Color.LIGHT_GRAY);
         clearButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        clearButton.addActionListener((event) -> this.gridPanel.generateGrid());
+        clearButton.addActionListener((event) -> this.seekerFrame.getGridPanel().generateGrid());
         this.add(clearButton);
 
         final JButton startButton = new JButton("Start");
         startButton.setBackground(Color.LIGHT_GRAY);
         startButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        startButton.addActionListener((event) -> this.gridPanel.start());
+        startButton.addActionListener((event) -> this.seekerFrame.getGridPanel().start());
         this.add(startButton);
 
-        diagonalCheckBox = new JCheckBox("Diagonal movements");
-        this.add(diagonalCheckBox);
+        this.checkDiagonalsCheckBox = new JCheckBox("Diagonal movements");
+        this.add(this.checkDiagonalsCheckBox);
 
-        this.add(infoLabel);
+        this.infoLabel = new JLabel("", SwingConstants.CENTER);
+        this.add(this.infoLabel);
     }
 
     private void setGridSize() {
@@ -97,29 +96,34 @@ public class OptionsPanel extends JPanel {
             width = Integer.parseInt(this.columnsField.getText());
             height = Integer.parseInt(this.rowsField.getText());
             if (width > 100 || width < 1 || height > 100 || height < 1) {
-                OptionsPanel.setText("The size should be between 1 and 100", true);
+                this.displayError("The size should be between 1 and 100");
             } else {
-                this.gridPanel.setGridSize(width, height);
+                this.seekerFrame.getGridPanel().setGridSize(width, height);
             }
         } catch (final NumberFormatException ignored) {
-            OptionsPanel.setText("Invalid number", true);
+            this.displayError("Invalid number");
         }
     }
 
-    public static int getWaitingTime() {
-        return waitingTimeSlider.getValue();
+    public int getWaitingTime() {
+        return this.waitingTimeSlider.getValue();
     }
 
-    public static int getWallRatio() {
-        return wallRatioSlider.getValue();
+    public int getWallRatio() {
+        return this.wallRatioSlider.getValue();
     }
 
-    public static boolean checkDiagonal() {
-        return diagonalCheckBox.isSelected();
+    public boolean checkDiagonals() {
+        return this.checkDiagonalsCheckBox.isSelected();
     }
 
-    public static void setText(String text, boolean isError) {
-        infoLabel.setForeground(isError ? Color.RED : Color.BLACK);
-        infoLabel.setText(text);
+    public void displayText(String text) {
+        this.infoLabel.setForeground(Color.BLACK);
+        this.infoLabel.setText(text);
+    }
+
+    public void displayError(String error) {
+        this.infoLabel.setForeground(Color.RED);
+        this.infoLabel.setText(error);
     }
 }

@@ -20,6 +20,7 @@ public class GridPanel extends JPanel {
     public static final Color PATH_COLOR = Color.YELLOW;
     public static final Color EMPTY_COLOR = Color.WHITE;
 
+    private final SeekerFrame seekerFrame;
     private final AtomicBoolean isMousePressed;
 
     private int columns;
@@ -28,7 +29,8 @@ public class GridPanel extends JPanel {
     private Node startNode;
     private Node endNode;
 
-    public GridPanel(int columns, int rows) {
+    public GridPanel(SeekerFrame seekerFrame, int columns, int rows) {
+        this.seekerFrame = seekerFrame;
         this.isMousePressed = new AtomicBoolean(false);
         this.setGridSize(columns, rows);
     }
@@ -73,11 +75,11 @@ public class GridPanel extends JPanel {
         this.endNode.setForeground(Color.BLACK);
         this.endNode.setText("End");
 
-        OptionsPanel.setText("\"Draw\" walls", false);
+        this.seekerFrame.getOptionsPanel().displayText("\"Draw\" walls");
     }
 
     public void start() {
-        OptionsPanel.setText("Searching...", false);
+        this.seekerFrame.getOptionsPanel().displayText("Searching...");
 
         // Clean yellow traces
         for (int y = 0; y < this.rows; y++) {
@@ -93,23 +95,23 @@ public class GridPanel extends JPanel {
         final Thread thread = new Thread(() -> {
             final long startTime = System.currentTimeMillis();
 
-            final AStar aStar = new AStar(this.grid, this.startNode, this.endNode);
+            final AStar aStar = new AStar(this.grid, this.startNode, this.endNode, this.seekerFrame.getOptionsPanel().checkDiagonals());
             final List<Node> path = aStar.getPath();
 
             if (path != null) {
                 final long elapsedTime = System.currentTimeMillis() - startTime;
-                OptionsPanel.setText("A path has been found in " + elapsedTime + "ms !", false);
+                this.seekerFrame.getOptionsPanel().displayText("A path has been found in " + elapsedTime + "ms !");
 
                 for (final Node node : path) {
                     node.setBackground(PATH_COLOR);
                     try {
-                        Thread.sleep(OptionsPanel.getWaitingTime());
+                        Thread.sleep(this.seekerFrame.getOptionsPanel().getWaitingTime());
                     } catch (final InterruptedException err) {
-                        OptionsPanel.setText(err.getMessage(), true);
+                        this.seekerFrame.getOptionsPanel().displayError(err.getMessage());
                     }
                 }
             } else {
-                OptionsPanel.setText("No existing path.", true);
+                this.seekerFrame.getOptionsPanel().displayError("No existing path.");
             }
         });
         thread.start();
@@ -120,7 +122,7 @@ public class GridPanel extends JPanel {
 
         final Random rand = new Random();
 
-        final int wallsToPlace = this.columns * this.rows * OptionsPanel.getWallRatio() / 100;
+        final int wallsToPlace = this.columns * this.rows * this.seekerFrame.getOptionsPanel().getWallRatio() / 100;
         int wallsPlaced = 0;
 
         while (wallsPlaced != wallsToPlace) {
