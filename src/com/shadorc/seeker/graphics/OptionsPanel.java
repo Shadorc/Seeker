@@ -8,6 +8,11 @@ public class OptionsPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
+    private static final int MIN_COLUMNS = 1;
+    private static final int MAX_COLUMNS = 150;
+    private static final int MIN_ROWS = 1;
+    private static final int MAX_ROWS = 150;
+
     private final SeekerFrame seekerFrame;
     private final JLabel infoLabel;
     private final JSlider waitingTimeSlider;
@@ -23,7 +28,7 @@ public class OptionsPanel extends JPanel {
         this.seekerFrame = seekerFrame;
 
         final JPanel columnPanel = new JPanel(new BorderLayout());
-        final JLabel columnLabel = new JLabel("Columns (1-100) : ");
+        final JLabel columnLabel = new JLabel("Columns (" + MIN_COLUMNS + "-" + MAX_COLUMNS + ") : ");
         columnPanel.add(columnLabel, BorderLayout.LINE_START);
 
         this.columnsField = new JTextField(Integer.toString(SeekerFrame.DEFAULT_COLUMNS));
@@ -31,7 +36,7 @@ public class OptionsPanel extends JPanel {
         this.add(columnPanel);
 
         final JPanel rowPanel = new JPanel(new BorderLayout());
-        final JLabel rowLabel = new JLabel("Rows (1-100) : ");
+        final JLabel rowLabel = new JLabel("Rows (" + MIN_ROWS + "-" + MAX_ROWS + ") : ");
         rowPanel.add(rowLabel, BorderLayout.LINE_START);
 
         this.rowsField = new JTextField(Integer.toString(SeekerFrame.DEFAULT_ROWS));
@@ -90,15 +95,19 @@ public class OptionsPanel extends JPanel {
     }
 
     private void setGridSize() {
-        final int width;
-        final int height;
         try {
-            width = Integer.parseInt(this.columnsField.getText());
-            height = Integer.parseInt(this.rowsField.getText());
-            if (width > 100 || width < 1 || height > 100 || height < 1) {
-                this.displayError("The size should be between 1 and 100");
+            final int columns = Integer.parseInt(this.columnsField.getText());
+            final int rows = Integer.parseInt(this.rowsField.getText());
+            if (columns < MIN_COLUMNS) {
+                this.displayError("Columns cannot be smaller than " + MIN_COLUMNS);
+            } else if (columns > MAX_COLUMNS) {
+                this.displayError("Columns cannot be greater than " + MAX_COLUMNS);
+            } else if (rows < MIN_ROWS) {
+                this.displayError("Rows cannot be smaller than " + MIN_ROWS);
+            } else if (rows > MAX_ROWS) {
+                this.displayError("Rows cannot be greater than " + MAX_ROWS);
             } else {
-                this.seekerFrame.getGridPanel().setGridSize(width, height);
+                this.seekerFrame.getGridPanel().setGridSize(columns, rows);
             }
         } catch (final NumberFormatException ignored) {
             this.displayError("Invalid number");
