@@ -2,8 +2,8 @@ package com.shadorc.seeker;
 
 import com.shadorc.seeker.graphics.SeekerFrame;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.SwingUtilities;
+import java.awt.Frame;
 
 public class Main {
 

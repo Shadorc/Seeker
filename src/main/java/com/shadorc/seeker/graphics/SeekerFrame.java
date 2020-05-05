@@ -1,7 +1,12 @@
 package com.shadorc.seeker.graphics;
 
-import javax.swing.*;
-import java.awt.*;
+import com.shadorc.seeker.graphics.panel.GridPanel;
+import com.shadorc.seeker.graphics.panel.OptionsPanel;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+import java.awt.BorderLayout;
 
 public class SeekerFrame extends JFrame {
 

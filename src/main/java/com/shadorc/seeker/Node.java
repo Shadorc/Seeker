@@ -1,22 +1,22 @@
 package com.shadorc.seeker;
 
-import javax.swing.*;
+import javax.swing.JButton;
 
 public class Node extends JButton {
 
     private static final long serialVersionUID = 1L;
 
-    // Parent, Node that allowed "to arrive" to this Node
+    /** Parent node (node that allowed "to arrive" to this node). */
     private Node p;
 
-    // Distance from the starting point to this Node
+    /** Distance from the starting point to this node. */
     private double g;
-    // Distance as the crow flies between this Node and the end Node
+    /** Flight distance between this node and the end node. */
     private double h;
-    // Sum of G and H
+    /** Sum of G and H. **/
     private double f;
 
-    // Is this Node a wall ?
+    /** Whether this node is a wall. */
     private boolean isWall;
 
     private final int x;
@@ -36,70 +36,70 @@ public class Node extends JButton {
     }
 
     /**
-     * @return Distance from the starting point to this Node
+     * @return Distance from the starting point to this node.
      */
     public double getG() {
         return this.g;
     }
 
     /**
-     * @return Distance as the crow flies between this Node and the finish Node
+     * @return Flight distance between this node and the ending node.
      */
     public double getH() {
         return this.h;
     }
 
     /**
-     * @return Sum of G and H
+     * @return Sum of G and H.
      */
     public double getF() {
         return this.f;
     }
 
     /**
-     * @return Node's parent (Node that allowed "to arrive" to this Node)
+     * @return Parent node (note that allowed "to arrive" to this node).
      */
     public Node getP() {
         return this.p;
     }
 
     /**
-     * @return true if the node is a wall, false otherwise
+     * @return Whether this node is a wall.
      */
     public boolean isWall() {
         return this.isWall;
     }
 
     /**
-     * @param g Distance from the starting point to this Node
+     * @param g Distance from the starting point to this node.
      */
     public void setG(double g) {
         this.g = g;
     }
 
     /**
-     * @param h DDistance as the crow flies between this Node and the finish Node
+     * @param h Flight distance between this node and the end node.
      */
     public void setH(double h) {
         this.h = h;
     }
 
     /**
-     * @param f Sum of G and H
+     * @param f Sum of G and H.
      */
     public void setF(double f) {
         this.f = f;
     }
 
     /**
-     * @param p Node's parent (Node that allowed "to arrive" to this Node)
+     * @param p Parent node (node that allowed "to arrive" to this node).
      */
     public void setP(Node p) {
         this.p = p;
     }
 
     /**
-     * @param isWall true if the node is a wall, false otherwise
+     * @param Whether this node is a wall.
      */
     public void isWall(boolean isWall) {
         this.isWall = isWall;

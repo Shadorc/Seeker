@@ -1,5 +1,5 @@
 # Seeker
-Seeker is a simple implementation of the path-findind algorithm named A* with a graphical interface.  
+Seeker is a simple implementation of the path-finding algorithm named A* with a graphical interface.  
 A* allows you to find a path between two points as quickly as possible.  
 The graphical interface provides:
 - A way to generate random obstacles 

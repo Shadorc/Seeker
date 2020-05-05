@@ -1,7 +1,11 @@
-package com.shadorc.seeker.graphics;
+package com.shadorc.seeker.graphics.panel;
+
+import com.shadorc.seeker.graphics.SeekerFrame;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
 
 
 public class OptionsPanel extends JPanel {
@@ -69,7 +73,7 @@ public class OptionsPanel extends JPanel {
         wallsButton.addActionListener((event) -> this.seekerFrame.getGridPanel().generateRandomWalls());
         this.add(wallsButton);
 
-        final JButton gridButton = new JButton("New Grid");
+        final JButton gridButton = new JButton("Generate new grid");
         gridButton.setBackground(Color.LIGHT_GRAY);
         gridButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         gridButton.addActionListener((event) -> this.setGridSize());

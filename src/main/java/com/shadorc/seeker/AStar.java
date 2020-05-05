@@ -14,9 +14,10 @@ public class AStar {
     private final List<Node> closeList;
 
     /**
-     * @param grid  The grid in which the shortest path must be determined
-     * @param start Start Node
-     * @param end   End Node
+     * @param grid The grid in which the shortest path must be determined.
+     * @param start Starting node.
+     * @param end Ending node.
+     * @param checkDiagonals Whether to consider diagonal movements as valid.
      */
     public AStar(Node[][] grid, Node start, Node end, boolean checkDiagonals) {
         this.grid = grid;
@@ -28,21 +29,21 @@ public class AStar {
     }
 
     /**
-     * @return The shortest way to go from the start Node to end Node
+     * @return The shortest path to go from the starting node to the ending node or {@code null} if a valid path cannot be found.
      */
-    public List<Node> getPath() {
+    public List<Node> computePath() {
         this.openList.add(this.start);
 
         while (!this.closeList.contains(this.end)) {
-            final Node current = this.getCurrent();
-            this.closeList.add(current);
-            this.openList.remove(current);
-
-            if (current == null) {
+            final Node currentNode = this.getCurrent();
+            if (currentNode == null) {
                 return null;
             }
 
-            for (final Node node : this.getSurroundingNodes(current)) {
+            this.closeList.add(currentNode);
+            this.openList.remove(currentNode);
+
+            for (final Node node : this.getSurroundingNodes(currentNode)) {
 
                 if (node.isWall() || this.closeList.contains(node)) {
                     continue;
@@ -51,18 +52,20 @@ public class AStar {
                 if (this.openList.contains(node)) {
                     final int g = this.calculateG(node);
                     if (g < node.getG()) {
-                        node.setP(current);
+                        node.setP(currentNode);
                         // Distance between node and the end : sqrt((node.x-end.x)^2 + (node.y-end.y)^2))
-                        node.setH(Math.sqrt(StrictMath.pow(node.getPosX() - this.end.getPosX(), 2) + StrictMath.pow(node.getPosY() - this.end.getPosY(), 2)));
+                        node.setH(Math.sqrt(Math.pow(node.getPosX() - this.end.getPosX(), 2)
+                                + Math.pow(node.getPosY() - this.end.getPosY(), 2)));
                         node.setF(node.getG() + node.getH());
                     }
                     node.setG(g);
                 } else {
                     this.openList.add(node);
-                    node.setP(current);
+                    node.setP(currentNode);
                     node.setG(this.calculateG(node));
                     // Distance between node and the end : sqrt((node.x-end.x)^2 + (node.y-end.y)^2))
-                    node.setH(Math.sqrt(StrictMath.pow(node.getPosX() - this.end.getPosX(), 2) + StrictMath.pow(node.getPosY() - this.end.getPosY(), 2)));
+                    node.setH(Math.sqrt(Math.pow(node.getPosX() - this.end.getPosX(), 2)
+                            + Math.pow(node.getPosY() - this.end.getPosY(), 2)));
                     node.setF(node.getG() + node.getH());
                 }
 
@@ -88,7 +91,7 @@ public class AStar {
     }
 
     /**
-     * @return Node with the smaller value F
+     * @return Node with the lowest F value.
      */
     private Node getCurrent() {
         Node current = null;
@@ -101,8 +104,8 @@ public class AStar {
     }
 
     /**
-     * @param node The node that we must retrieve surrounding Nodes
-     * @return Surrounding Nodes
+     * @param node The node that we must retrieve surrounding nodes.
+     * @return A list of surrounding nodes.
      */
     private List<Node> getSurroundingNodes(Node node) {
         final List<Node> around = new ArrayList<>();
@@ -142,14 +145,14 @@ public class AStar {
     }
 
     /**
-     * @return True if the coordinates are not out of bounds, false otherwise
+     * @return {@code true} if the coordinates are not out of bounds, {@code false} otherwise.
      */
     private boolean isPossible(int x, int y) {
         return x >= 0 && x < this.grid[0].length && y >= 0 && y < this.grid.length;
     }
 
     /**
-     * @return The number of moves required to move from the starting Node to node
+     * @return The number of moves required to move from the starting node to the provided node.
      */
     private int calculateG(Node node) {
         int step = 0;

@@ -1,11 +1,13 @@
-package com.shadorc.seeker.graphics;
+package com.shadorc.seeker.graphics.panel;
 
 import com.shadorc.seeker.AStar;
 import com.shadorc.seeker.Node;
+import com.shadorc.seeker.graphics.SeekerFrame;
 import com.shadorc.seeker.graphics.event.NodeMouseListener;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.GridLayout;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -96,7 +98,7 @@ public class GridPanel extends JPanel {
             final long startTime = System.currentTimeMillis();
 
             final AStar aStar = new AStar(this.grid, this.startNode, this.endNode, this.seekerFrame.getOptionsPanel().checkDiagonals());
-            final List<Node> path = aStar.getPath();
+            final List<Node> path = aStar.computePath();
 
             if (path != null) {
                 final long elapsedTime = System.currentTimeMillis() - startTime;

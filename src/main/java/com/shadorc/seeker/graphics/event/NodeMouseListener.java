@@ -1,7 +1,7 @@
 package com.shadorc.seeker.graphics.event;
 
 import com.shadorc.seeker.Node;
-import com.shadorc.seeker.graphics.GridPanel;
+import com.shadorc.seeker.graphics.panel.GridPanel;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
