@@ -1,7 +1,13 @@
 # Seeker
-Seeker is a path-finding software using the A* algorithm that allows you to find a way between two points as quickly as possible. A graphical interface allows to place or generate random obstacles or to configure several parameters such as the diagonal movement, the size of the grid and the speed of travel. 
+Seeker is a simple implementation of the path-findind algorithm named A* with a graphical interface.  
+A* allows you to find a path between two points as quickly as possible.  
+The graphical interface provides:
+- A way to generate random obstacles 
+- Activation of diagonal movements
+- Configuration of the grid's size
+- Configuration of the time between actions (travel speed) 
 
-More information about A* can be found [here](http://forums.mediabox.fr/wiki/tutoriaux/flashplatform/jeux/pathfinder_algorithme_astar). 
+More information about A* can be found [here](https://en.wikipedia.org/wiki/A*_search_algorithm).
 
 ## Screenshot
 ![Screenshot](https://i.imgur.com/LPcJi2J.png)
